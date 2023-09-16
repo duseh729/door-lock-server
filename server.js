@@ -8,12 +8,16 @@ const mongoConnect = require("./util/database").mongoConnect; // mongodb 데이�
 
 const port = process.env.PORT || 3000;
 
+const userRoutes = require("./routes/user");
+
 app.use(cors()); // cors 사용
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "../frontend/public"))); // https://despiteallthat.tistory.com/151 <- 블로그 참고
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "../frontend"));
+
+app.use(userRoutes);
 
 mongoConnect(client => {
   app.listen(3000);
