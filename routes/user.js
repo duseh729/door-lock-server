@@ -1,5 +1,13 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors"); // cors 라이브러리 import
+const bodyParser = require("body-parser"); // body-parser 라이브러리 import
+
+const { User } = require("../models/user");
+const mongoConnect = require("../util/database").mongoConnect; // mongodb 데이터베이스
+
+router.use(cors()); // cors 사용
+router.use(bodyParser.json());
 
 router.post("/login", (req, res, next) => {
   const { userId, userPw } = { ...req.body };
@@ -19,8 +27,9 @@ router.post("/login", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { userId, userPw } = req.body;
-
+  const { userId, userPw } = { ...req.body };
+  console.log(req.body);
+  console.log(userId, userPw);
   // 아이디나 비밀번호 중 하나라도 비어있을 경우
   if (userId === "" || userPw === "") {
     return res.json({ message: "아이디와 비밀번호를 입력해주세요." });
