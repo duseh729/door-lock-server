@@ -31,7 +31,7 @@ router.post("/signup", (req, res, next) => {
   console.log(req.body);
   console.log(userId, userPw);
   // 아이디나 비밀번호 중 하나라도 비어있을 경우
-  if (userId === "" || userPw === "") {
+  if (userId === undefined || userPw === undefined) {
     return res.json({ message: "아이디와 비밀번호를 입력해주세요." });
   }
 
