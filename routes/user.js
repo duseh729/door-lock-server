@@ -14,13 +14,13 @@ router.post("/login", (req, res, next) => {
   console.log(userId, userPw);
 
   User.findById({ userId: userId })
-    .then(user => {
+    .then((user) => {
       if (!user || user.password !== userPw) {
         return res.status(401).json({ message: "Invalid username or password." });
       }
       res.status(200).json({ message: "Login successful.", userId: userId });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error during login:", error);
       res.status(500).json({ message: "Login failed." });
     });
@@ -36,7 +36,7 @@ router.post("/signup", (req, res, next) => {
   }
 
   User.findById({ userId: userId })
-    .then(existingUser => {
+    .then((existingUser) => {
       if (existingUser) {
         return res.json({ message: "이미 존재하는 아이디입니다." });
       }
@@ -45,19 +45,26 @@ router.post("/signup", (req, res, next) => {
 
       user
         .save()
-        .then(result => {
+        .then((result) => {
           console.log("User saved:", result);
           res.status(201).json({ message: "회원가입이 완료되었습니다.", success: true });
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error saving user:", error);
           res.status(500).json({ message: "회원가입 중 오류가 발생했습니다." });
         });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error("Error checking user:", error);
       res.status(500).json({ message: "회원가입 중 오류가 발생했습니다." });
     });
+});
+
+router.post("/force", (req, res, next) => {
+  const data = { userId: req.body.userId, forceData: req.body.forceData };
+  User.updataOneById(data).then((result) => {
+    res.json({ message: "무적 변경" });
+  });
 });
 
 module.exports = router;
