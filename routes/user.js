@@ -3,7 +3,6 @@ const router = express.Router();
 const cors = require("cors"); // cors 라이브러리 import
 
 const { User } = require("../models/user");
-const mongoConnect = require("../util/database").mongoConnect; // mongodb 데이터베이스
 
 router.use(cors()); // cors 사용
 router.use(express.json());
@@ -26,12 +25,17 @@ router.post("/login", (req, res, next) => {
 });
 
 router.post("/signup", (req, res, next) => {
-  const { userId, userPw } = { ...req.body };
+  const { userId, userPw, userNickname, correctPassword } = { ...req.body };
   console.log(req.body);
-  console.log(userId, userPw);
+  console.log(userId, userPw, userNickname);
   // 아이디나 비밀번호 중 하나라도 비어있을 경우
   if (userId === undefined || userPw === undefined) {
     return res.json({ message: "아이디와 비밀번호를 입력해주세요." });
+  }
+
+  // 비밀번호 확인 알고리즘
+  if (userPw !== correctPassword) {
+    return res.json({ message: "비번이 일치하지 않는다." });
   }
 
   User.findById({ userId: userId })
@@ -40,7 +44,7 @@ router.post("/signup", (req, res, next) => {
         return res.json({ message: "이미 존재하는 아이디입니다." });
       }
 
-      const user = new User(userId, userPw);
+      const user = new User(userId, userPw, userNickname);
 
       user
         .save()
@@ -57,13 +61,6 @@ router.post("/signup", (req, res, next) => {
       console.error("Error checking user:", error);
       res.status(500).json({ message: "회원가입 중 오류가 발생했습니다." });
     });
-});
-
-router.post("/force", (req, res, next) => {
-  const data = { userId: req.body.userId, forceData: req.body.forceData };
-  User.updataOneById(data).then(result => {
-    res.json({ message: "무적 변경" });
-  });
 });
 
 module.exports = router;
