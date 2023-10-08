@@ -9,6 +9,7 @@ class User {
     this.nickname = nickname;
     this.password = password;
     this.force = false;
+    this.doorlockPassword = null;
   }
 
   save() {
@@ -18,17 +19,32 @@ class User {
       password: this.password,
       nickname: this.nickname,
       force: this.force,
+      doorlockPassword: this.doorlockPassword,
     });
   }
 
+  // 아이디로 data 찾기
   static findById(data) {
     const db = getDb();
     return db.collection("users").findOne({ id: data.userId });
   }
 
-  static updataForceById(data) {
+  // 무적 상태 활성화/비활성화
+  static updateForceById(data) {
     const db = getDb();
-    return db.collection("users").updateOne({ id: data.userId }, { $set: { force: data.forceData } });
+
+    const { userId, forceData } = { ...data };
+
+    return db.collection("users").updateOne({ id: userId }, { $set: { force: forceData } });
+  }
+
+  // 도어락 비밀번호 설정
+  static updateDoorlockPasswordById(data) {
+    const db = getDb();
+
+    const { userId, doorlockPassword } = { ...data };
+
+    return db.collection("users").updateOne({ id: userId }, { $set: { doorlockPassword: doorlockPassword } });
   }
 }
 

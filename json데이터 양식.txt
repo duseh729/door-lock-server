@@ -1,0 +1,22 @@
+// 회원가입 양식
+// /signup
+{
+    "userId" : "test",
+    "userPw" : "test",
+    "userNickname" : "nickname",
+    "correctPassword" : "test"
+}
+
+// 도어락 비밀번호 설정
+// /set-doorlock-password
+{
+    "userId" : "test",
+    "doorlockPassword" : 1234
+}
+
+// 무적 버튼 활성화/비활성화
+// /force
+{
+    "userId" : "test",
+    "forceData" : true
+}
