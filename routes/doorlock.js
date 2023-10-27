@@ -40,7 +40,7 @@ router.post("/usage-history", (req, res, next) => {});
 router.post("/door-open", (req, res, next) => {
   console.log(req.body);
 
-  return req.body.doorlockStatus;
+  res.json({ doorlockStatus: req.body.doorlockStatus });
 });
 
 module.exports = router;
