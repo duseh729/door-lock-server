@@ -32,4 +32,15 @@ router.post("/set-doorlock-password", (req, res, next) => {
 // 임시 비밀번호
 router.post("/temporary-password", (req, res, next) => {});
 
+// 이용내역
+router.get("/usage-history", (req, res, next) => {});
+router.post("/usage-history", (req, res, next) => {});
+
+// 도어락 오픈
+router.post("/door-open", (req, res, next) => {
+  console.log(req.body);
+
+  return req.body.doorlocakStatus;
+});
+
 module.exports = router;

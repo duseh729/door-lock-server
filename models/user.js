@@ -8,6 +8,7 @@ class User {
     this.id = id;
     this.nickname = nickname;
     this.password = password;
+    this.doorlockStatus = false;
     this.force = false;
     this.doorlockPassword = null;
   }
@@ -18,6 +19,7 @@ class User {
       id: this.id,
       password: this.password,
       nickname: this.nickname,
+      doorlockStatus: this.doorlockStatus,
       force: this.force,
       doorlockPassword: this.doorlockPassword,
     });
