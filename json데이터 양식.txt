@@ -20,3 +20,10 @@
     "userId" : "test",
     "forceData" : true
 }
+
+// 도어락 상태(열림, 닫힘) 설정
+// /door-open
+{
+    "userId" : "test",
+    "doorlockStaus": true
+}

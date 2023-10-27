@@ -38,9 +38,24 @@ router.post("/usage-history", (req, res, next) => {});
 
 // 도어락 오픈
 router.post("/door-open", (req, res, next) => {
-  console.log(req.body);
+  const { userId, doorlockStatus } = { ...req.body };
 
-  res.json({ doorlockStatus: req.body.doorlockStatus });
+  console.log(userId, doorlockStatus);
+  if (doorlockStatus != true && doorlockStatus != false) {
+    return res.status(404).json({ message: "잘못된 요청이다." });
+  }
+
+  User.updateDoorlockStatus({ userId: userId, doorlockStatus: doorlockStatus })
+    .then(result => {
+      if (doorlockStatus) {
+        return res.json({ message: "open", doorlockStatus: doorlockStatus });
+      } else {
+        return res.json({ message: "close", doorlockStatus: doorlockStatus });
+      }
+    })
+    .catch(err => {
+      console.log("도어락 열림 오류 : ", err);
+    });
 });
 
 module.exports = router;

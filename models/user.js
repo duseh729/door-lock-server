@@ -48,6 +48,15 @@ class User {
 
     return db.collection("users").updateOne({ id: userId }, { $set: { doorlockPassword: doorlockPassword } });
   }
+
+  // 도어락 상태 (열림, 닫힘) 설정
+  static updateDoorlockStatus(data) {
+    const db = getDb();
+
+    const { userId, doorlockStatus } = { ...data };
+
+    return db.collection("users").updateOne({ id: userId }, { $set: { doorlockStatus: doorlockStatus } });
+  }
 }
 
 exports.User = User;
