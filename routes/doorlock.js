@@ -33,8 +33,31 @@ router.post("/set-doorlock-password", (req, res, next) => {
 router.post("/temporary-password", (req, res, next) => {});
 
 // 이용내역
-router.get("/usage-history", (req, res, next) => {});
-router.post("/usage-history", (req, res, next) => {});
+router.post("/usage-history-get", (req, res, next) => {
+  const userId = req.body.userId;
+
+  User.findById({ userId: userId }).then(result => {
+    res.json({ usageHistory: result.usageHistory });
+  });
+});
+router.post("/usage-history-post", (req, res, next) => {
+  const { userId, openHistory, dateHistory, timeHistory } = { ...req.body };
+
+  const usageHistory = { userId, openHistory, dateHistory, timeHistory };
+
+  User.findById({ userId: userId }).then(result => {
+    const tempUsageHistory = result.usageHistory;
+    tempUsageHistory.push(usageHistory);
+
+    User.addUsageHistory({ userId: userId, usageHistory: tempUsageHistory })
+      .then(result => {
+        return res.json({ result: "success", message: "이용내역이 잘 저장되었어" });
+      })
+      .catch(err => {
+        console.log("usage history Err:", err);
+      });
+  });
+});
 
 // 도어락 오픈
 router.post("/door-open", (req, res, next) => {

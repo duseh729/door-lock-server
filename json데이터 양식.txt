@@ -27,3 +27,12 @@
     "userId" : "test",
     "doorlockStaus": true
 }
+
+// 이용내역 post
+// /usage-history-post
+{
+    "userId" : "test",
+    "openHistory" : "OPEN",
+    "dateHistory" : "2023-10-27",
+    "timeHistory" : "17:36"
+}

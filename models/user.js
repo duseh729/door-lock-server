@@ -11,6 +11,7 @@ class User {
     this.doorlockStatus = false;
     this.force = false;
     this.doorlockPassword = null;
+    this.usageHistory = [];
   }
 
   save() {
@@ -22,6 +23,7 @@ class User {
       doorlockStatus: this.doorlockStatus,
       force: this.force,
       doorlockPassword: this.doorlockPassword,
+      usageHistory: this.usageHistory,
     });
   }
 
@@ -56,6 +58,15 @@ class User {
     const { userId, doorlockStatus } = { ...data };
 
     return db.collection("users").updateOne({ id: userId }, { $set: { doorlockStatus: doorlockStatus } });
+  }
+
+  // 이용내역 추가
+  static addUsageHistory(data) {
+    const db = getDb();
+
+    const { userId, usageHistory } = { ...data };
+
+    return db.collection("users").updateOne({ id: userId }, { $set: { usageHistory: usageHistory } });
   }
 }
 
