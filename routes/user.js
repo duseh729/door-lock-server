@@ -7,6 +7,7 @@ const { User } = require("../models/user");
 router.use(cors()); // cors 사용
 router.use(express.json());
 
+// 로그인
 router.post("/login", (req, res, next) => {
   const { userId, userPw } = { ...req.body };
   console.log(userId, userPw);
@@ -24,6 +25,7 @@ router.post("/login", (req, res, next) => {
     });
 });
 
+// 회원가입
 router.post("/signup", (req, res, next) => {
   const { userId, userPw, userNickname, correctPassword } = { ...req.body };
   console.log(req.body);

@@ -32,7 +32,7 @@ router.post("/set-doorlock-password", (req, res, next) => {
 // 임시 비밀번호
 router.post("/temporary-password", (req, res, next) => {});
 
-// 이용내역
+// 이용내역 데이터 요청
 router.post("/usage-history-get", (req, res, next) => {
   const userId = req.body.userId;
 
@@ -40,6 +40,7 @@ router.post("/usage-history-get", (req, res, next) => {
     res.json({ usageHistory: result.usageHistory });
   });
 });
+// 이용내역 데이터 저장
 router.post("/usage-history-post", (req, res, next) => {
   const { userId, openHistory, dateHistory, timeHistory } = { ...req.body };
 
