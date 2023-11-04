@@ -4,8 +4,8 @@
     <script>
       window.onload = function () {
         // 1. 웹소켓 클라이언트 객체 생성
-        // const webSocket = new WebSocket("ws://localhost:3000");
-        const webSocket = new WebSocket("ws://port-0-door-lock-server-jvpb2alnwnfxkw.sel5.cloudtype.app/");
+        const webSocket = new WebSocket("ws://localhost:3000");
+        // const webSocket = new WebSocket("ws://port-0-door-lock-server-jvpb2alnwnfxkw.sel5.cloudtype.app/");
 
         // 2. 웹소켓 이벤트 처리
         // 2-1) 연결 이벤트 처리
@@ -30,7 +30,7 @@
         document.getElementById("btn_send").onclick = function () {
           const text = document.getElementById("text");
           const data = text.value;
-          // console.log(data);
+          console.log(data);
           if (webSocket.readyState === webSocket.OPEN) {
             // 연결 상태 확인
             webSocket.send(data);
