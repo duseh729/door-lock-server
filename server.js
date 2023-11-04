@@ -40,8 +40,14 @@ wsServer.on("connection", (ws, request) => {
 
   // 3) 클라이언트로부터 메시지 수신 이벤트 처리
   ws.on("message", msg => {
-    console.log(`클라이언트[${ip}]에게 수신한 메시지 : ${msg}`);
-    ws.send(`메시지 ${msg} 잘 받았습니다! from 서버`);
+    // console.log(`클라이언트[${ip}]에게 수신한 메시지 : ${msg}`);
+    // ws.send(`메시지 ${msg} 잘 받았습니다! from 서버`);
+
+    wsServer.clients.forEach(client => {
+      if (client != ws) {
+        client.send(message);
+      }
+    });
   });
 
   // 4) 에러 처러
