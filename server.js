@@ -45,7 +45,7 @@ wsServer.on("connection", (ws, request) => {
 
     wsServer.clients.forEach(client => {
       if (client != ws) {
-        client.send(message);
+        client.send(msg);
       }
     });
   });
