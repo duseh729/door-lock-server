@@ -25,7 +25,7 @@ module.exports = server => {
           .then(result => {
             wsServer.clients.forEach(client => {
               if (client != ws) {
-                client.send("열림");
+                client.send("open");
               }
             });
           })
@@ -37,7 +37,7 @@ module.exports = server => {
           .then(result => {
             wsServer.clients.forEach(client => {
               if (client != ws) {
-                client.send("닫힘");
+                client.send("close");
               }
             });
           })
