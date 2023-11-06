@@ -60,6 +60,17 @@ router.post("/usage-history-post", (req, res, next) => {
   });
 });
 
+// 도어락 상태 불러오기
+router.get("/doorlock-status-get", (req, res, next) => {
+  User.findById({ userId: "test" })
+    .then(result => {
+      res.json({ doorlockStatus: result.doorlockStatus });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 // 도어락 오픈
 router.post("/door-open", (req, res, next) => {
   const { userId, doorlockStatus } = { ...req.body };

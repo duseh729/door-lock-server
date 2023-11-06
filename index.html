@@ -33,7 +33,7 @@
           console.log(data);
           if (webSocket.readyState === webSocket.OPEN) {
             // 연결 상태 확인
-            webSocket.send(data);
+            webSocket.send(`doorStatus-${data}`);
             // webSocket.send(`증가하는 숫자를 보냅니다 => ${count}`); // 웹소켓 서버에게 메시지 전송
             count++; // 보낼때마다 숫자를 1씩 증가
           } else {
@@ -44,7 +44,8 @@
           const data = "open";
           if (webSocket.readyState === webSocket.OPEN) {
             // 연결 상태 확인
-            webSocket.send(data);
+            // webSocket.send(`doorStatus-${data}`);
+            webSocket.send(`${data}`);
             // webSocket.send(`증가하는 숫자를 보냅니다 => ${count}`); // 웹소켓 서버에게 메시지 전송
             count++; // 보낼때마다 숫자를 1씩 증가
           }
