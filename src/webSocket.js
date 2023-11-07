@@ -18,35 +18,48 @@ module.exports = server => {
     // 3) 클라이언트로부터 메시지 수신 이벤트 처리
     ws.on("message", msg => {
       // console.log(`클라이언트[${ip}]에게 수신한 메시지 : ${msg}`);
-      console.log(msg.toString().split("-"));
+      const tempMsg = msg.toString().split("-");
       // for (let i in msg) {
       //   console.log(i);
       // }
-      ws.send(`메시지 ${msg} 잘 받았습니다! from 서버`);
-      const tempMsg = msg.toString("utf8");
-      if (tempMsg === "open") {
-        User.updateDoorlockStatus({ userId: "test", doorlockStatus: true })
+      ws.send(`메시지 ${tempMsg[0]}-${tempMsg[1]} 잘 받았습니다! from 서버`);
+      if (tempMsg[0] === "doorlockStatus") {
+        if (tempMsg[1] === "open") {
+          User.updateDoorlockStatus({ userId: "test", doorlockStatus: true })
+            .then(result => {
+              wsServer.clients.forEach(client => {
+                if (client != ws) {
+                  client.send(`${tempMsg[0]}-${tempMsg[1]}`);
+                }
+              });
+            })
+            .catch(err => {
+              console.log("도어락 열림 오류 : ", err);
+            });
+        } else if (tempMsg[1] === "close") {
+          User.updateDoorlockStatus({ userId: "test", doorlockStatus: false })
+            .then(result => {
+              wsServer.clients.forEach(client => {
+                if (client != ws) {
+                  client.send(`${tempMsg[0]}-${tempMsg[1]}`);
+                }
+              });
+            })
+            .catch(err => {
+              console.log("도어락 열림 오류 : ", err);
+            });
+        }
+      } else if (tempMsg[0] === "pwChange") {
+        User.updateDoorlockPasswordById({ userId: "test", doorlockPassword: tempMsg[1] })
           .then(result => {
             wsServer.clients.forEach(client => {
               if (client != ws) {
-                client.send("open");
+                client.send(`${tempMsg[0]}-${tempMsg[1]}`);
               }
             });
           })
           .catch(err => {
-            console.log("도어락 열림 오류 : ", err);
-          });
-      } else if (tempMsg === "close") {
-        User.updateDoorlockStatus({ userId: "test", doorlockStatus: false })
-          .then(result => {
-            wsServer.clients.forEach(client => {
-              if (client != ws) {
-                client.send("close");
-              }
-            });
-          })
-          .catch(err => {
-            console.log("도어락 열림 오류 : ", err);
+            console.log(`비밀번호 변경 오류 : ${err}`);
           });
       }
     });
