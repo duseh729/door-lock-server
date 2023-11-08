@@ -29,7 +29,7 @@ module.exports = server => {
             .then(result => {
               wsServer.clients.forEach(client => {
                 if (client != ws) {
-                  client.send(`${tempMsg[0]}-${tempMsg[1]}`);
+                  client.send(`${tempMsg[1]}`);
                 }
               });
             })
@@ -41,7 +41,7 @@ module.exports = server => {
             .then(result => {
               wsServer.clients.forEach(client => {
                 if (client != ws) {
-                  client.send(`${tempMsg[0]}-${tempMsg[1]}`);
+                  client.send(`${tempMsg[1]}`);
                 }
               });
             })
