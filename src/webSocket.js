@@ -23,6 +23,15 @@ module.exports = server => {
       //   console.log(i);
       // }
       ws.send(`메시지 ${tempMsg[0]}-${tempMsg[1]} 잘 받았습니다! from 서버`);
+      if (msg.toString() === "normal") {
+        ws.send("test용 normal~");
+        wsServer.clients.forEach(client => {
+          if (client != ws) {
+            client.send(`${tempMsg[1]}`);
+          }
+        });
+      }
+
       if (tempMsg[0] === "doorlockStatus") {
         if (tempMsg[1] === "open") {
           User.updateDoorlockStatus({ userId: "test", doorlockStatus: true })
