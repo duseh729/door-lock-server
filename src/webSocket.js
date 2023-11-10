@@ -27,7 +27,7 @@ module.exports = server => {
         ws.send("test용 normal~");
         wsServer.clients.forEach(client => {
           if (client != ws) {
-            client.send(`${tempMsg[1]}`);
+            client.send(`normal`);
           }
         });
       }
