@@ -34,7 +34,8 @@ module.exports = server => {
 
       if (tempMsg[0] === "doorlockStatus") {
         if (tempMsg[1] === "open") {
-          User.updateDoorlockStatus({ userId: "test", doorlockStatus: true })
+          ws.send("열렸노");
+          User.updateDoorlockStatus({ userId: "test", doorlockStatus: false })
             .then(result => {
               wsServer.clients.forEach(client => {
                 if (client != ws) {
@@ -46,7 +47,8 @@ module.exports = server => {
               console.log("도어락 열림 오류 : ", err);
             });
         } else if (tempMsg[1] === "close") {
-          User.updateDoorlockStatus({ userId: "test", doorlockStatus: false })
+          ws.send("닫혔노");
+          User.updateDoorlockStatus({ userId: "test", doorlockStatus: true })
             .then(result => {
               wsServer.clients.forEach(client => {
                 if (client != ws) {
@@ -59,6 +61,7 @@ module.exports = server => {
             });
         }
       } else if (tempMsg[0] === "pwChange") {
+        ws.send("비번 변경됐노");
         User.updateDoorlockPasswordById({ userId: "test", doorlockPassword: tempMsg[1] })
           .then(result => {
             wsServer.clients.forEach(client => {
