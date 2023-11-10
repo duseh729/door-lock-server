@@ -57,7 +57,33 @@ module.exports = server => {
               });
             })
             .catch(err => {
-              console.log("도어락 열림 오류 : ", err);
+              console.log("도어락 닫힘 오류 : ", err);
+            });
+        } else if (tempMsg[1] === "mujeok") {
+          ws.send("무적이노");
+          User.updateDoorlockStatus({ userId: "test", doorlockStatus: "mujeok" })
+            .then(result => {
+              wsServer.clients.forEach(client => {
+                if (client != ws) {
+                  client.send(`${tempMsg[1]}`);
+                }
+              });
+            })
+            .catch(err => {
+              console.log("도어락 무적 오류 : ", err);
+            });
+        } else if (tempMsg[1] === "unMujeok") {
+          ws.send("언무적이노");
+          User.updateDoorlockStatus({ userId: "test", doorlockStatus: "unMujeok" })
+            .then(result => {
+              wsServer.clients.forEach(client => {
+                if (client != ws) {
+                  client.send(`${tempMsg[1]}`);
+                }
+              });
+            })
+            .catch(err => {
+              console.log("도어락 언무적 오류 : ", err);
             });
         }
       } else if (tempMsg[0] === "pwChange") {
